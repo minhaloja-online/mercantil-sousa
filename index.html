@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>Mercantil Sousa — Gestão de Comércio</title>
+<title>MercadoPDV — Gestão de Comércio</title>
 <meta name="description" content="Sistema de PDV, estoque e financeiro para pequenos comércios">
 <meta name="theme-color" content="#14301F">
 <link rel="manifest" href="manifest.json">
@@ -252,6 +252,91 @@ img{max-width:100%;}
 .scanner-video video{width:100%;height:100%;object-fit:cover;}
 .role-hide{display:none !important;}
 #receipt-print{display:none;}
+
+/* ============================================================
+   LAYOUT DE DESKTOP/NOTEBOOK (>=900px)
+   No celular, o app continua exatamente como está (barra inferior,
+   telas empilhadas). A partir de 900px de largura, vira um layout de
+   sistema: menu lateral fixo, painéis lado a lado, diálogos centrados,
+   mais densidade e atalhos de mouse/teclado.
+   ============================================================ */
+.sidebar-nav{display:none;}
+.mobile-hub-links{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;}
+.hub-link{display:flex; flex-direction:column; align-items:flex-start; gap:6px; background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius); padding:14px; cursor:pointer; text-align:left;}
+.hub-link .ic{font-size:20px;}
+.hub-link .t{font-weight:700; font-size:13.5px;}
+.charts-row{display:block;}
+#pdv-desktop-cart{display:none;}
+
+@media (min-width:900px){
+  html{font-size:15px;}
+  #app{flex-direction:row; align-items:stretch;}
+  #app-content{flex:1; min-width:0; display:flex; flex-direction:column;}
+
+  /* ---- Menu lateral ---- */
+  .sidebar-nav{
+    display:flex; flex-direction:column; width:240px; flex-shrink:0;
+    background:linear-gradient(180deg,var(--bg-header),var(--bg-header-2)); color:#fff;
+    padding:22px 14px; position:sticky; top:0; align-self:flex-start; height:100vh; overflow-y:auto;
+  }
+  .sidebar-nav .brand{display:flex; align-items:center; gap:10px; padding:0 8px; margin-bottom:26px;}
+  .sidebar-nav .brand .logo{width:34px; height:34px; border-radius:9px; background:var(--primary); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:800; font-size:15px; flex-shrink:0;}
+  .sidebar-nav .brand span{font-family:var(--font-display); font-weight:700; font-size:15.5px;}
+  .sidebar-nav .sb-label{font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:rgba(255,255,255,.4); font-weight:700; padding:14px 10px 8px;}
+  .sidebar-nav .nav-btn{
+    flex-direction:row; justify-content:flex-start; align-items:center; gap:12px; width:100%;
+    padding:10px 10px; border-radius:10px; color:rgba(255,255,255,.72); font-size:13.5px; font-weight:600;
+    margin-bottom:2px; background:none; border:none; cursor:pointer; text-align:left;
+  }
+  .sidebar-nav .nav-btn .ic{font-size:17px; width:20px; text-align:center;}
+  .sidebar-nav .nav-btn:hover{background:rgba(255,255,255,.07); color:#fff;}
+  .sidebar-nav .nav-btn.active{background:var(--primary); color:#fff;}
+  .sidebar-nav .nav-btn.fab{margin-top:0;}
+  .sidebar-nav .nav-btn.fab .ic{width:20px; height:auto; border-radius:0; background:none; border:none; box-shadow:none; color:inherit; font-size:17px;}
+  .sidebar-nav .sb-footer{margin-top:auto; padding-top:14px; border-top:1px solid rgba(255,255,255,.12); font-size:11.5px; color:rgba(255,255,255,.5);}
+
+  #bottom-nav{display:none;}
+  .mobile-hub-links{display:none;}
+
+  #app-header{position:sticky; top:0;}
+  #app-main{max-width:1180px; padding:26px 32px 40px; margin:0;}
+  .search-bar{position:static;}
+
+  /* ---- Densidade / grades maiores ---- */
+  .stat-grid{grid-template-columns:repeat(4,1fr);}
+  .fw-grid{grid-template-columns:repeat(4,1fr);}
+  .fw-grid.c3{grid-template-columns:repeat(3,1fr);}
+  .charts-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .chart-wrap canvas{max-height:260px;}
+  .pay-grid{grid-template-columns:repeat(4,1fr);}
+
+  /* ---- Listas com toque de mouse ---- */
+  .list-row{cursor:pointer; transition:border-color .12s, box-shadow .12s, transform .12s;}
+  .list-row:hover{border-color:var(--primary); box-shadow:var(--shadow);}
+  .chip:hover, .btn-outline:hover, .btn-ghost:hover{filter:brightness(0.97);}
+  .btn:hover{filter:brightness(1.06);}
+
+  /* ---- Diálogos centrados (não é mais "bottom sheet") ---- */
+  .modal-backdrop{align-items:center;}
+  .modal-sheet{border-radius:22px; max-width:560px; max-height:88vh;}
+  .modal-handle{display:none;}
+
+  /* ---- PDV em duas colunas: lista + carrinho fixo ---- */
+  #view-pdv{display:grid; grid-template-columns:1fr 360px; gap:18px; align-items:start;}
+  #view-pdv .search-bar, #view-pdv .pdv-actions, #view-pdv #pdv-product-list{grid-column:1/2;}
+  #btn-ver-carrinho{display:none;}
+  #pdv-desktop-cart{
+    display:flex; flex-direction:column; grid-column:2/3; grid-row:1/4; position:sticky; top:26px;
+    background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius); padding:16px;
+    max-height:calc(100vh - 52px); box-shadow:var(--shadow-sm);
+  }
+  #pdv-desktop-cart h3{font-size:12.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-dim); margin-bottom:10px;}
+  #pdv-desktop-cart-items{flex:1; overflow-y:auto; margin-bottom:10px;}
+}
+@media (min-width:1280px){
+  #app-main{padding:30px 44px 44px;}
+}
+
 @media print{
   body *{visibility:hidden;}
   #receipt-print, #receipt-print *{visibility:visible;}
@@ -286,6 +371,22 @@ img{max-width:100%;}
 
 <!-- ===================== APP SHELL ===================== -->
 <div id="app" class="hidden">
+
+  <nav id="sidebar-nav">
+    <div class="brand"><div class="logo">M</div><span>MercadoPDV</span></div>
+    <button class="nav-btn active" data-view="dashboard"><span class="ic">🏠</span>Início</button>
+    <button class="nav-btn" data-view="pdv"><span class="ic">🛒</span>PDV / Caixa</button>
+    <div class="sb-label">Gestão</div>
+    <button class="nav-btn" data-view="produtos"><span class="ic">📦</span>Produtos</button>
+    <button class="nav-btn" data-view="estoque"><span class="ic">⏰</span>Estoque</button>
+    <button class="nav-btn" data-view="financeiro"><span class="ic">💵</span>Financeiro</button>
+    <button class="nav-btn" data-view="relatorios"><span class="ic">📊</span>Relatórios</button>
+    <div class="sb-label">Sistema</div>
+    <button class="nav-btn" data-view="config"><span class="ic">⚙</span>Configurações</button>
+    <div class="sb-footer" id="sidebar-user-info"></div>
+  </nav>
+
+  <div id="app-content">
   <header id="app-header">
     <div class="row">
       <div class="brand"><div class="logo">M</div><span id="store-name">MercadoPDV</span></div>
@@ -308,10 +409,14 @@ img{max-width:100%;}
       <div class="section-title"><h2>Geral</h2></div>
       <div class="stat-grid" id="dash-stats-general"></div>
       <div class="section-title"><h2>Gráficos</h2></div>
-      <div class="chart-wrap"><h3>Vendas por dia (últimos 14 dias)</h3><canvas id="chart-vendas-dia"></canvas></div>
-      <div class="chart-wrap"><h3>Lucro por mês (últimos 6 meses)</h3><canvas id="chart-lucro-mes"></canvas></div>
-      <div class="chart-wrap"><h3>Produtos mais vendidos</h3><canvas id="chart-top-produtos"></canvas></div>
-      <div class="chart-wrap"><h3>Categorias mais vendidas</h3><canvas id="chart-top-categorias"></canvas></div>
+      <div class="charts-row">
+        <div class="chart-wrap"><h3>Vendas por dia (últimos 14 dias)</h3><canvas id="chart-vendas-dia"></canvas></div>
+        <div class="chart-wrap"><h3>Lucro por mês (últimos 6 meses)</h3><canvas id="chart-lucro-mes"></canvas></div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-wrap"><h3>Produtos mais vendidos</h3><canvas id="chart-top-produtos"></canvas></div>
+        <div class="chart-wrap"><h3>Categorias mais vendidas</h3><canvas id="chart-top-categorias"></canvas></div>
+      </div>
     </section>
 
     <!-- ---------- PDV ---------- -->
@@ -325,6 +430,14 @@ img{max-width:100%;}
         <button class="btn btn-outline" id="btn-ver-carrinho">🛒 Ver carrinho (<span id="cart-count">0</span>)</button>
       </div>
       <div id="pdv-product-list"></div>
+
+      <aside id="pdv-desktop-cart">
+        <h3>Carrinho</h3>
+        <div id="pdv-desktop-cart-items"></div>
+        <div class="perf"></div>
+        <div class="cart-total-row"><span class="lbl">Total</span><span class="val mono js-cart-total">R$ 0,00</span></div>
+        <button class="btn btn-primary btn-block btn-lg js-cart-finalizar" id="pdv-desktop-finalizar" disabled>Finalizar venda</button>
+      </aside>
     </section>
 
     <!-- ---------- PRODUTOS ---------- -->
@@ -412,6 +525,10 @@ img{max-width:100%;}
 
     <!-- ---------- CONFIGURAÇÕES / MAIS ---------- -->
     <section id="view-config" class="view">
+      <div class="mobile-hub-links">
+        <button class="hub-link" data-view="financeiro"><span class="ic">💵</span><span class="t">Financeiro</span></button>
+        <button class="hub-link" data-view="relatorios"><span class="ic">📊</span><span class="t">Relatórios</span></button>
+      </div>
       <div class="card">
         <h3>Loja</h3>
         <div class="field mt-2"><label>Nome da loja</label><input type="text" id="cfg-nome-loja"></div>
@@ -454,11 +571,12 @@ img{max-width:100%;}
 
   <nav id="bottom-nav">
     <button class="nav-btn active" data-view="dashboard"><span class="ic">🏠</span>Início</button>
-    <button class="nav-btn" data-view="estoque"><span class="ic">📦</span>Estoque</button>
+    <button class="nav-btn" data-view="produtos"><span class="ic">📦</span>Produtos</button>
     <button class="nav-btn fab" data-view="pdv"><span class="ic">🛒</span></button>
-    <button class="nav-btn" data-view="financeiro"><span class="ic">💵</span>Financ.</button>
+    <button class="nav-btn" data-view="estoque"><span class="ic">⏰</span>Estoque</button>
     <button class="nav-btn" data-view="mais"><span class="ic">☰</span>Mais</button>
   </nav>
+  </div><!-- /#app-content -->
 </div>
 
 <div id="modal-root"></div>
